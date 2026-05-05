@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ResumeScanner — ATS Resume Checker</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #fafbfe;
+      --surface-solid: #ffffff;
+      --border: rgba(0,0,0,0.06);
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --primary: #7c3aed;
+      --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #d946ef 100%);
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(ellipse at 30% 20%, rgba(124,58,237,0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 70% 80%, rgba(217,70,239,0.06) 0%, transparent 50%),
+                  linear-gradient(180deg, #fafbfe 0%, #f4f2fa 100%);
+      min-height: 100vh; color: var(--text); line-height: 1.6;
+    }
+    .container { max-width: 720px; margin: 0 auto; padding: 64px 24px 48px; }
+    h1 {
+      text-align: center; font-size: clamp(32px, 5vw, 44px);
+      font-weight: 900; letter-spacing: -0.03em; margin-bottom: 8px;
+      background: var(--gradient-primary); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .subtitle {
+      text-align: center; color: var(--text-secondary);
+      margin-bottom: 40px; font-size: 17px;
+    }
+    .card {
+      background: var(--surface-solid); border: 1px solid var(--border);
+      border-radius: 20px; padding: 40px; box-shadow:
+        0 20px 50px -12px rgba(124,58,237,0.1), 0 8px 20px -8px rgba(0,0,0,0.06);
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--gradient-primary);
+    }
+    label { display: block; font-weight: 650; margin-bottom: 8px; color: var(--text-secondary); font-size: 14px; letter-spacing: -0.01em; }
+    textarea {
+      width: 100%; padding: 14px 16px; border: 1.5px solid var(--border);
+      border-radius: 12px; font-size: 15px; margin-bottom: 20px;
+      min-height: 200px; background: var(--surface-solid); color: var(--text);
+      transition: all 0.2s ease; outline: none; resize: vertical;
+    }
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(124,58,237,0.12);
+    }
+    .btn {
+      background: var(--gradient-primary); color: white; border: none;
+      padding: 16px 36px; border-radius: 9999px; font-size: 16px;
+      font-weight: 700; cursor: pointer; width: 100%; transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+      box-shadow: 0 4px 16px rgba(124,58,237,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(124,58,237,0.4), inset 0 1px 0 rgba(255,255,255,0.2); }
+    .btn:active { transform: translateY(0); }
+    .score { text-align: center; margin: 32px 0; }
+    .score-number {
+      font-size: 72px; font-weight: 900;
+      background: var(--gradient-primary); -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent; background-clip: text;
+      letter-spacing: -0.03em; line-height: 1;
+    }
+    .score-label { font-size: 16px; color: var(--text-secondary); margin-top: 8px; }
+    .issues { margin-top: 24px; }
+    .issue {
+      padding: 14px 18px; margin-bottom: 10px; border-radius: 12px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 14px; font-weight: 500;
+    }
+    .issue.good { background: rgba(16,185,129,0.08); color: #059669; border: 1px solid rgba(16,185,129,0.15); }
+    .issue.warn { background: rgba(245,158,11,0.08); color: #b45309; border: 1px solid rgba(245,158,11,0.15); }
+    .issue.bad { background: rgba(239,68,68,0.08); color: #dc2626; border: 1px solid rgba(239,68,68,0.15); }
+  </style>
+<meta name="google-adsense-account" content="ca-pub-8410225250422623">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8410225250422623" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>🔍 ResumeScanner</h1>
+    <p class="subtitle">Check if your resume passes ATS systems</p>
+    
+    <div class="card">
+      <label>Paste your resume text</label>
+      <textarea id="resume" placeholder="Paste your resume here..."></textarea>
+      
+      <label>Job Description (optional)</label>
+      <textarea id="jobDesc" rows="3" placeholder="Paste the job description to compare against..."></textarea>
+      
+      <button class="btn" onclick="scanResume()">Scan Resume</button>
+    </div>
+    
+    <div class="card" id="result" style="display:none;">
+      <div class="score">
+        <div class="score-number" id="scoreNumber">0</div>
+        <div class="score-label">ATS Score</div>
+      </div>
+      <div class="issues" id="issues"></div>
+    </div>
+  </div>
+
+  <script src="/src/js/app.js"></script>
+</body>
+</html>
